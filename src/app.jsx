@@ -13,6 +13,7 @@ function App({ youtube }) {
   }
 
   const search = param => {
+    setSelectedVideo(null);
     youtube
         .search(param)    
         .then(items => setVideos(items));
