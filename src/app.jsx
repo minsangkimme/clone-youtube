@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import VideoList from "./components/video_list/video_list";
 import styles from './app.module.css';
 import SearchHeader from './components/search_video/search_header';
@@ -12,18 +12,21 @@ function App({ youtube }) {
     setSelectedVideo(video);
   }
 
-  const search = param => {
-    setSelectedVideo(null);
-    youtube
-        .search(param)    
-        .then(items => setVideos(items));
-  }
+  const search = useCallback(
+    param => {
+      setSelectedVideo(null);
+      youtube
+          .search(param)    
+          .then(items => setVideos(items));
+    },
+    [youtube],
+  )
 
   useEffect(() => {
     youtube
       .mostPopular()      
       .then(items => setVideos(items));
-  }, []);
+  }, [youtube]);
 
   return (
     <div className={styles.app}>     
